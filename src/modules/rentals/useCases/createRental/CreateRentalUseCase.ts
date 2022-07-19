@@ -37,7 +37,7 @@ class CreateRentalUseCase {
     const rentalOpenToUser = await this.rentalsRepository.findOpenRentalByUser(user_id);
 
     if (rentalOpenToUser) {
-      throw new AppError("There's a rental in progress for user");
+      throw new AppError("There's a rental in progress for user.");
     }
 
     const dateNow = this.dateProvider.dateNow();
@@ -45,7 +45,7 @@ class CreateRentalUseCase {
     const compare = this.dateProvider.compareInHours(dateNow, expected_return_date);
 
     if (compare < minimumHour) {
-      throw new AppError('Invalid return time');
+      throw new AppError('Invalid return time.');
     }
 
     const rental = await this.rentalsRepository.create({
