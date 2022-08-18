@@ -7,7 +7,6 @@ import { app } from '@shared/infra/http/app';
 import createConnection from '@shared/infra/typeorm';
 
 let connection: Connection;
-
 describe('Create Category Controller', () => {
   beforeAll(async () => {
     connection = await createConnection();
@@ -36,12 +35,15 @@ describe('Create Category Controller', () => {
 
     const { refresh_token } = responseToken.body;
 
-    const response = await request(app).post('/categories').send({
-      name: 'Category Supertest',
-      description: 'Category Supertest description',
-    }).set({
-      Authorization: `Bearer ${refresh_token}`,
-    });
+    const response = await request(app)
+      .post('/categories')
+      .send({
+        name: 'Category Supertest',
+        description: 'Category Supertest',
+      })
+      .set({
+        Authorization: `Bearer ${refresh_token}`,
+      });
 
     expect(response.status).toBe(201);
   });
@@ -52,14 +54,17 @@ describe('Create Category Controller', () => {
       password: 'admin',
     });
 
-    const { token } = responseToken.body;
+    const { refresh_token } = responseToken.body;
 
-    const response = await request(app).post('/categories').send({
-      name: 'Category Supertest',
-      description: 'Category Supertest description',
-    }).set({
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await request(app)
+      .post('/categories')
+      .send({
+        name: 'Category Supertest',
+        description: 'Category Supertest',
+      })
+      .set({
+        Authorization: `Bearer ${refresh_token}`,
+      });
 
     expect(response.status).toBe(400);
   });
